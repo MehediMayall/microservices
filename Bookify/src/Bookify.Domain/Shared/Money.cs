@@ -10,6 +10,10 @@ public record Money(decimal Amount, Currency currency)
         return new Money(first.Amount + second.Amount, first.currency);
     }
 
+
     public static Money Zero() => new Money(0, Currency.None);
+    public static Money Zero(Currency currency) => new Money(0, currency);
+
+    public bool IsZero(Currency currency) => this == Zero(currency);
 
 }
