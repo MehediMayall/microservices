@@ -1,6 +1,6 @@
 namespace Bookify.Domain;
 
-public sealed class BookingService
+public sealed class PricingService
 {
     public PricingDetails CalculatePrice(Apartment apartment, DateRange period)
     {

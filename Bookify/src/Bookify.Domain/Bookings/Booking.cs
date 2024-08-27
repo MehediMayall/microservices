@@ -40,16 +40,18 @@ public sealed class Booking: Entity
     public DateTime CancelledOnUtc { get; private set; }
 
     public static Booking Reserve(
-        Guid apartmentid,
+        Apartment apartment,
         Guid userid,
         DateRange duration,
         DateTime utcNow,
-        PricingDetails pricingDetails
+        PricingService pricingService
     )
     {
+        var pricingDetails = pricingService.CalculatePrice(apartment, duration);
+
         var booking = new Booking(
             Guid.NewGuid(),
-            apartmentid,
+            apartment.Id,
             userid,
             duration,
             pricingDetails.PriceForPeriod,
@@ -60,10 +62,95 @@ public sealed class Booking: Entity
             utcNow
         );
 
-        booking.RaiseDomainEvents(new BookingReservedDomainEvents(booking.Id));
+        apartment.LastBookedOnUtc = utcNow;
+
+        booking.RaiseDomainEvents(new BookingReservedDomainEvent(booking.Id));
 
         return booking;
     }
+
+    public Result Confirm(DateTime utcNow)
+    {
+        if( Status != BookingStatus.Reserved )
+            return Result.Failure(BookingErrors.NotReserved);
+
+        Status = BookingStatus.Confirmed;
+        RejectedOnUtc = utcNow;
+
+        RaiseDomainEvents(new BookingConfirmedDomainEvent(Id));
+
+        return Result.Success();
+    }
+
+    public Result Reject(DateTime utcNow)
+    {
+        if( Status != BookingStatus.Reserved )
+            return Result.Failure(BookingErrors.NotReserved);
+
+        Status = BookingStatus.Rejected;
+        RejectedOnUtc = utcNow;
+
+        RaiseDomainEvents(new BookingRejectedDomainEvent(Id));
+
+        return Result.Success();
+    }
+
+    public Result Complete(DateTime utcNow)
+    {
+        if( Status != BookingStatus.Reserved )
+            return Result.Failure(BookingErrors.NotReserved);
+
+        Status = BookingStatus.Completed;
+        RejectedOnUtc = utcNow;
+
+        RaiseDomainEvents(new BookingCompletedDomainEvent(Id));
+
+        return Result.Success();
+    }
+
+    public Result Cancel(DateTime utcNow)
+    {
+        if( Status != BookingStatus.Reserved )
+            return Result.Failure(BookingErrors.NotReserved);
+
+        var currentDate = DateOnly.FromDateTime(utcNow);
+
+        if( currentDate > Duration.Start )
+            return Result.Failure(BookingErrors.AlreadyStarted);
+
+        Status = BookingStatus.Cancelled;
+        RejectedOnUtc = utcNow;
+
+        RaiseDomainEvents(new BookingCancelledDomainEvent(Id));
+
+        return Result.Success();
+    }
+
+    // public static Booking Reserve(
+    //     Guid apartmentid,
+    //     Guid userid,
+    //     DateRange duration,
+    //     DateTime utcNow,
+    //     PricingDetails pricingDetails
+    // )
+    // {
+    //     var booking = new Booking(
+    //         Guid.NewGuid(),
+    //         apartmentid,
+    //         userid,
+    //         duration,
+    //         pricingDetails.PriceForPeriod,
+    //         pricingDetails.CleaningFee,
+    //         pricingDetails.AmenitiesUpCharge,
+    //         pricingDetails.TotalPrice,
+    //         BookingStatus.Reserved,
+    //         utcNow
+    //     );
+
+    //     booking.RaiseDomainEvents(new BookingReservedDomainEvents(booking.Id));
+
+    //     return booking;
+    // }
 
 }
 
