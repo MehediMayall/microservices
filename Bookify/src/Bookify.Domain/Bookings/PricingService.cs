@@ -26,7 +26,7 @@ public sealed class PricingService
         if (percentageUpCharge > 0)
         {
             amenitiesUpCharge = new Money(
-                priceforPeriod.Amount + percentageUpCharge,
+                priceforPeriod.Amount * percentageUpCharge,
                 currency
             );
         }
