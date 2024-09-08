@@ -1,4 +1,5 @@
 ﻿using Bookify.Application;
+using Bookify.Domain;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -21,6 +22,13 @@ public static class DependencyInjection
         services.AddDbContext<ApplicationDbContext>(options =>{
             options.UseNpgsql(connectionString).UseSnakeCaseNamingConvention();
         });
+
+        services.AddScoped<IUserRepository, UserRepository>();
+        services.AddScoped<IApartmentRepository, ApartmentRepository>();
+        services.AddScoped<IBookingRepository, BookingRepository>();
+        services.AddScoped<IUnitOfWork>(
+            sp=> sp.GetRequiredService<ApplicationDbContext>()
+        );
 
         return services;
     }
