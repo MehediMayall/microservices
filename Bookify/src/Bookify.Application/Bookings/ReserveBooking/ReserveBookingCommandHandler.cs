@@ -43,17 +43,23 @@ internal sealed record ReserveBookingCommandHandler : ICommandHandler<ReserveBoo
         if( await _bookingRepo.IsOverlappingAsync(apartment, duration, cancellationToken))
             return Result.Failure<Guid>(BookingErrors.Overlap);
 
-        var booking = Booking.Reserve(
-            apartment,
-            request.UserId,
-            duration,
-            _dateTimeProvider.UtcNow,
-            _priceService
-        );
+        try
+        {
+            var booking = Booking.Reserve(
+                apartment,
+                request.UserId,
+                duration,
+                _dateTimeProvider.UtcNow,
+                _priceService
+            );
 
-        _bookingRepo.Add(booking);
-        await _unitOfWork.SaveChangesAsync( cancellationToken);
+            _bookingRepo.Add(booking);
+            await _unitOfWork.SaveChangesAsync( cancellationToken);
 
-        return booking.Id;
+            return booking.Id;
+        }
+        catch(ConcurrencyException) {
+            return Result.Failure<Guid>(BookingErrors.Overlap);
+        }
     }
 }

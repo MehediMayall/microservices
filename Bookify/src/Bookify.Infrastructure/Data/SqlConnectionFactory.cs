@@ -1,6 +1,7 @@
 namespace Bookify.Infrastructure;
 
 using System.Data;
+using Bookify.Application;
 using Npgsql;
 
 internal sealed class SqlConnectionFactory: ISqlConnectionFactory
