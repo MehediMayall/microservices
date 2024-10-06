@@ -9,6 +9,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Bookify.Application", "Book
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Bookify.Infrastructure", "Bookify.Infrastructure\Bookify.Infrastructure.csproj", "{80C43BFD-2085-4C35-B278-0E0F30E9D8B5}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Bookify.Api", "Bookify.Api\Bookify.Api.csproj", "{09233EC2-3691-43F6-BE7A-FA26B3D1E3AE}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -30,5 +32,9 @@ Global
 		{80C43BFD-2085-4C35-B278-0E0F30E9D8B5}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{80C43BFD-2085-4C35-B278-0E0F30E9D8B5}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{80C43BFD-2085-4C35-B278-0E0F30E9D8B5}.Release|Any CPU.Build.0 = Release|Any CPU
+		{09233EC2-3691-43F6-BE7A-FA26B3D1E3AE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{09233EC2-3691-43F6-BE7A-FA26B3D1E3AE}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{09233EC2-3691-43F6-BE7A-FA26B3D1E3AE}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{09233EC2-3691-43F6-BE7A-FA26B3D1E3AE}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal
