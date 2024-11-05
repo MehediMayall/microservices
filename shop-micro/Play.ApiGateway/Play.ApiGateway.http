@@ -1,0 +1,12 @@
+@host = http://localhost:3300
+@token = CfDJ8P6nnteq3P5FskKFDjzfozTGWGLMJAgvTzGmo3hos-NQkhs6I2ZJAwhOvCagnH_UiZQoS_SH2t6SakVyTH1LqWY0Ejjdp-N-G_WBQtpAax1m-Edtk5MPl63LzNmgX50LuFKQxZfSTyhTHWcv9JWanMU9JYyoM2kOZJy8GqHnX6pOAG4KnZph-OYABGwtimZGqsLxX6NvQ7kKhnqwLLlcpdtZfMFT3qEJa4hbHnJfAFTzJl2ZSMF2j47Q36boHD5P1OebJ94ahLAiR5gRDz-jtwFCHc9ec8kMJJvjxEOwrDG3pBomL1xRvVKLtG7_9HgUnn3Hrta4pyQVLk5qHjBi4lebM6LGtxTmsSjfRkakwYpC
+
+### Catalog Items
+GET {{host}}/catalog/items
+Accept: application/json
+Authorization: Bearer {{token}}
+
+### Login
+GET {{host}}/login?catalogApiAccess=true
+Accept: application/json
+

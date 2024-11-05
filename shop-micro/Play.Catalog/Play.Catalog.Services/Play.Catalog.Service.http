@@ -1,0 +1,10 @@
+@host = http://localhost:3500
+
+###
+GET {{host}}/health
+Accept: application/json
+
+###
+GET {{host}}/items
+Accept: application/json
+

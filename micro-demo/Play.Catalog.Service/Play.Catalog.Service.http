@@ -1,0 +1,7 @@
+@host = http://localhost:3500
+
+
+### Get All
+GET {{host}}/items/
+Accept: application/json
+
